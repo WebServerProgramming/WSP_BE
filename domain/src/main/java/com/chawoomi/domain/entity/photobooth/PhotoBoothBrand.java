@@ -1,4 +1,4 @@
-package com.pocket.domain.entity.photobooth;
+package com.chawoomi.domain.entity.photobooth;
 
 public enum PhotoBoothBrand {
 

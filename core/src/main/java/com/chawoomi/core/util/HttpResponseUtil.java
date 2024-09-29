@@ -1,7 +1,7 @@
-package com.pocket.core.util;
+package com.chawoomi.core.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pocket.core.exception.common.ApiResponse;
+import com.chawoomi.core.exception.common.ApiResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

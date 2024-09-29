@@ -1,6 +1,6 @@
-package com.pocket.core.exception.jwt;
+package com.chawoomi.core.exception.jwt;
 
-import com.pocket.core.exception.common.BaseErrorCode;
+import com.chawoomi.core.exception.common.BaseErrorCode;
 import lombok.Getter;
 
 @Getter

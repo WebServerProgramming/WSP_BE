@@ -1,4 +1,4 @@
-package com.pocket.core.config;
+package com.chawoomi.core.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import lombok.RequiredArgsConstructor;

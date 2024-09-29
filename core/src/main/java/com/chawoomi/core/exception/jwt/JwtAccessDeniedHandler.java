@@ -1,6 +1,6 @@
-package com.pocket.core.exception.jwt;
+package com.chawoomi.core.exception.jwt;
 
-import com.pocket.core.util.HttpResponseUtil;
+import com.chawoomi.core.util.HttpResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.pocket.inbounds;
+package com.chawoomi.inbounds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

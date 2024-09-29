@@ -1,4 +1,4 @@
-package com.pocket.core.exception.common;
+package com.chawoomi.core.exception.common;
 
 import org.springframework.http.HttpStatus;
 

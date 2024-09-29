@@ -1,4 +1,4 @@
-package com.pocket.domain.entity.photobooth;
+package com.chawoomi.domain.entity.photobooth;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

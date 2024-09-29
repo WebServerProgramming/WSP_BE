@@ -1,4 +1,4 @@
-package com.pocket.domain.entity;
+package com.chawoomi.domain.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

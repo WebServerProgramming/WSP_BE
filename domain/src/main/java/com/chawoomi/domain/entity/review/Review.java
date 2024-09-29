@@ -1,4 +1,4 @@
-package com.pocket.domain.entity.review;
+package com.chawoomi.domain.entity.review;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

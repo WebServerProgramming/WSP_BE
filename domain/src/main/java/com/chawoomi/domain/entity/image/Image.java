@@ -1,6 +1,6 @@
-package com.pocket.domain.entity.image;
+package com.chawoomi.domain.entity.image;
 
-import com.pocket.domain.entity.BaseEntity;
+import com.chawoomi.domain.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

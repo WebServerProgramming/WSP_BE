@@ -1,4 +1,4 @@
-package com.pocket.core;
+package com.chawoomi.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

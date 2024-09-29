@@ -1,4 +1,4 @@
-package com.pocket.domain.dto;
+package com.chawoomi.domain.dto;
 
 import java.util.HashMap;
 import java.util.Map;

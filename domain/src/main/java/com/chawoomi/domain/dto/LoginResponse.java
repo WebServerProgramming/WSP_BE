@@ -1,4 +1,4 @@
-package com.pocket.domain.dto;
+package com.chawoomi.domain.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

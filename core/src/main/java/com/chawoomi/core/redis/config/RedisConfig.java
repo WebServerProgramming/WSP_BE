@@ -1,4 +1,4 @@
-package com.pocket.core.redis.config;
+package com.chawoomi.core.redis.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

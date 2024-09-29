@@ -1,4 +1,4 @@
-package com.pocket.core.exception.jwt.dto;
+package com.chawoomi.core.exception.jwt.dto;
 
 public record JwtDto(
 	String accessToken,

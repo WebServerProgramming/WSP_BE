@@ -1,4 +1,4 @@
-package com.pocket.domain.entity.review;
+package com.chawoomi.domain.entity.review;
 
 public enum PhotoFeature {
     NO_GLARE("빛번짐 없음"),
