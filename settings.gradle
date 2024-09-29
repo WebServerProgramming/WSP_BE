@@ -1,1 +1,6 @@
 rootProject.name = 'project'
+include 'hexagonal'
+include 'domain'
+include 'inbounds'
+include 'outbound'
+include 'core'
