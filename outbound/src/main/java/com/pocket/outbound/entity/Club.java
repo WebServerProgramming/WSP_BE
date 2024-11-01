@@ -1,5 +1,6 @@
 package com.pocket.outbound.entity;
 
+import com.chawoomi.core.exception.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

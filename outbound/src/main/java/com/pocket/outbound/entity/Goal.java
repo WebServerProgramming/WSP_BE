@@ -1,13 +1,7 @@
 package com.pocket.outbound.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.chawoomi.core.exception.common.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +15,6 @@ public class Goal extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goal_id")
     private Long goalId;
-    #user id..??
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -37,7 +30,7 @@ public class Goal extends BaseEntity {
 
     @Column(name = "progress", nullable = false)
     private Long progress;
-    
+
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private User member_id;
@@ -45,7 +38,4 @@ public class Goal extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;
-
-    @OneToMany(mappedBy = "goal")
-    private List<GoalProgress> goalProgresses;
 }

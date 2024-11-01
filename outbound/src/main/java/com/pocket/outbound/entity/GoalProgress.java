@@ -1,10 +1,15 @@
 package com.pocket.outbound.entity;
 
+import com.chawoomi.core.exception.common.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "Goal_Progress")
-public class Goal_Progress extends BaseEntity {
+public class GoalProgress extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +21,8 @@ public class Goal_Progress extends BaseEntity {
     private Goal goal_id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Club_user user_id;
+    @JoinColumn(name = "club_user_id", nullable = false)
+    private ClubUser club_user_id;
 
     @Column(name = "progress", nullable = false)
     private Long progress;
