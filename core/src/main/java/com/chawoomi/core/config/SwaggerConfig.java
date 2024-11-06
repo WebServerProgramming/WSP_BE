@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
         info = @io.swagger.v3.oas.annotations.info.Info(
-                title = "POCKET 4 CUT API 명세서",
-                description = "POCKET 4 CUT BE API 명세서입니다.",
+                title = "CHAWOOMI API 명세서",
+                description = "CHAWOOMI BE API 명세서입니다.",
                 version = "v1")
 )
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class SwaggerConfig {
     public GroupedOpenApi stOpenApi() {
 
         return GroupedOpenApi.builder()
-                .group("POCKET 4 CUT API v1")
+                .group("CHAWOOMI API v1")
                 .pathsToMatch("/**")
                 .build();
     }
