@@ -1,4 +1,4 @@
-package com.pocket.outbound.entity;
+package com.chawoomi.outbound.entity;
 
 import com.chawoomi.core.exception.common.BaseEntity;
 import jakarta.persistence.*;
@@ -13,16 +13,16 @@ public class ClubUser extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long UserId;
+    @Column(name = "club_user_id")
+    private Long clubUserId;
 
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
-    private Club club_id;
+    private Club club;
 
     @ManyToOne
-    @JoinColumn(name = "member_id_id", nullable = false)
-    private User member_id;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "role_id", nullable = false)
     private Long roleId;

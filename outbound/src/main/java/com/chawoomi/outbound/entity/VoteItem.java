@@ -1,4 +1,4 @@
-package com.pocket.outbound.entity;
+package com.chawoomi.outbound.entity;
 
 import com.chawoomi.core.exception.common.BaseEntity;
 import jakarta.persistence.*;

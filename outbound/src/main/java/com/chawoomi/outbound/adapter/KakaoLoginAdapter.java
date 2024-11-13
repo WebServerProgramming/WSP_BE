@@ -1,8 +1,7 @@
 package com.chawoomi.outbound.adapter;
 
 import com.chawoomi.domain.dto.OidcDecodePayload;
-import com.chawoomi.domain.entity.User;
-import com.chawoomi.outbound.entity.JpaUser;
+import com.chawoomi.outbound.entity.User;
 import com.chawoomi.outbound.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,19 +38,16 @@ public class KakaoLoginAdapter extends OidcUserService {
             log.debug("Decoded Payload: {}", oidcDecodePayload);
 
             // User 존재 여부 확인 및 조회
-            JpaUser user = userRepository.findByUserSubId(oidcDecodePayload.email())
+            userRepository.findBySubId(oidcDecodePayload.sub())
                     .orElseGet(() -> {
-                        User newUser = User.createSocialUser(oidcDecodePayload);
-                        JpaUser savedUser = JpaUser.createUser(newUser);
-                        return userRepository.save(savedUser);
+                        User newUser = User.createUser(oidcDecodePayload);
+                        return userRepository.save(newUser);
                     });
 
-            OidcUser oidcUser = new DefaultOidcUser(
+            return new DefaultOidcUser(
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                     userRequest.getIdToken()
             );
-
-            return oidcUser;
 
         } catch (Exception e) {
             log.error("Error loading user from OAuth2 user request: {}", e.getMessage(), e);

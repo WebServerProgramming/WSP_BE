@@ -1,4 +1,4 @@
-package com.pocket.outbound.entity;
+package com.chawoomi.outbound.entity;
 
 import com.chawoomi.core.exception.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -16,25 +16,23 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "User")
-public class User extends BaseEntity {
+@Table(name = "Vote_Item_Record")
+public class VoteItemRecord extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long memberId;
-    
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "record_id")
+    private Long recordId;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "detail_id", nullable = false)
+    private VoteItem voteItem;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "vote_id", nullable = false)
+    private Vote vote_id;
 
-    @Column(name = "picture", nullable = true)
-    private String picture;
-
-
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private User member_id;
 }
