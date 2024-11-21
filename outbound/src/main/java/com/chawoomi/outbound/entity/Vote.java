@@ -28,8 +28,8 @@ public class Vote extends BaseEntity {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private User member_id;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user_id;
 
     @ManyToOne
     @JoinColumn(name = "notice_id", nullable = false)
