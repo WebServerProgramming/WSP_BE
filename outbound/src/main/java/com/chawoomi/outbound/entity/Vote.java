@@ -22,18 +22,18 @@ public class Vote extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vote_id")
-    private Long vote_Id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user_id;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "notice_id", nullable = false)
-    private Notice notice_id;
+    private Notice notice;
 
 
 }

@@ -14,8 +14,8 @@ public class VoteItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "detail_id")
-    private Long detail_id;
+    @Column(name = "vote_item_id")
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;

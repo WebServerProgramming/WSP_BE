@@ -22,15 +22,23 @@ public class ClubService {
     public List<ClubInfo> findAll() {
 
         return clubRepository.findAll().stream()
-                .map(club -> new ClubInfo(club.getClub_id(), club.getClubName()))
+                .map(club -> new ClubInfo(club.getId(), club.getClubName()))
                 .toList();
     }
 
     public List<ClubMember> findMembers(Long id) {
+        // 1. 동아리 사용자 조회
+        final List<ClubUser> clubUsers = clubUserRepository.findAllByClub_Id(id);
 
-        final ClubUser clubUsers = clubUserRepository.findAllByClub_Club_id(id);
-        return userRepository.findAllByUserId(clubUsers.getUser().getUserId()).stream()
-                .map(user -> new ClubMember(user.getUserId(), user.getName()))
+        // 2. ClubUser에서 모든 UserId 추출
+        List<Long> userIds = clubUsers.stream()
+                .map(clubUser -> clubUser.getUser().getId())
+                .toList();
+
+        // 3. UserId 리스트를 사용해 User 엔티티 조회
+        return userRepository.findAllByUserIdIn(userIds).stream()
+                .map(user -> new ClubMember(user.getId(), user.getName()))
                 .toList();
     }
+
 }

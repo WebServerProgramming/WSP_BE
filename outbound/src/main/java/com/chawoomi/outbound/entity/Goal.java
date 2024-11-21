@@ -14,7 +14,7 @@ public class Goal extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goal_id")
-    private Long goalId;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -32,8 +32,8 @@ public class Goal extends BaseEntity {
     private Long progress;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private User member_id;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)

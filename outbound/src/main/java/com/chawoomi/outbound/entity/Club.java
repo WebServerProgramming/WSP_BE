@@ -19,7 +19,7 @@ public class Club extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_id")
-    private Long club_id;
+    private Long id;
 
     @Column(name = "club_name", nullable = false)
     private String clubName;

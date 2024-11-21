@@ -22,7 +22,7 @@ public class VoteItemRecord extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id")
-    private Long recordId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "detail_id", nullable = false)
@@ -30,9 +30,9 @@ public class VoteItemRecord extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "vote_id", nullable = false)
-    private Vote vote_id;
+    private Vote vote;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private User member_id;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

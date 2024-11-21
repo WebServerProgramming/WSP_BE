@@ -14,7 +14,7 @@ public class ClubUser extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_user_id")
-    private Long clubUserId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
