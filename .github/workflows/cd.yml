@@ -2,7 +2,7 @@ name: Backend CD # actions 이름
 
 on:
   push:
-    branches: [ feat/entity ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -29,6 +29,13 @@ jobs:
           cd ./outbound/src/main/resources
           touch ./application-oauth.yml
           echo "${{ secrets.APPLICATION_OAUTH }}" > ./application-oauth.yml
+        shell: bash
+
+      - name: make application-ai yml file
+        run: |
+          cd ./outbound/src/main/resources
+          touch ./application-ai.yml
+          echo "${{ secrets.APPLICATION_AI }}" > ./application-ai.yml
         shell: bash
 
       - name: Gradlew 권한 부여
