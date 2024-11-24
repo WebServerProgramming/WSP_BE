@@ -36,7 +36,7 @@ public class ClubService {
                 .toList();
 
         // 3. UserId 리스트를 사용해 User 엔티티 조회
-        return userRepository.findAllByUserIdIn(userIds).stream()
+        return userRepository.findAllByIdIn(userIds).stream()
                 .map(user -> new ClubMember(user.getId(), user.getName()))
                 .toList();
     }
