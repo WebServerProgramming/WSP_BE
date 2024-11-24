@@ -5,9 +5,9 @@ import com.chawoomi.core.exception.jwt.JwtAuthenticationEntryPoint;
 import com.chawoomi.outbound.adapter.KakaoLoginAdapter;
 import com.chawoomi.outbound.adapter.authentication.OAuthLoginFailureHandler;
 import com.chawoomi.outbound.adapter.authentication.OAuthLoginSuccessHandler;
+import com.chawoomi.outbound.util.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,6 +35,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,10 +49,12 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/").permitAll();
-                    authz.requestMatchers("/swagger-ui/**"
-                            , "/swagger-resources/**"
-                            , "/v3/api-docs/**").permitAll();
+                    // 접근 허용
+                    authz.requestMatchers(
+                            "/swagger-ui/**",
+                            "/swagger-resources/**",
+                            "/v3/api-docs/**").permitAll();
+                    // 그 외의 모든 요청은 인증 필요
                     authz.anyRequest().authenticated();
                 })
 
@@ -59,6 +63,8 @@ public class SecurityConfig {
                                 .oidcUserService(kakaoLoginAdapter))
                         .successHandler(oAuth2SuccessHandler)
                         .failureHandler(oAuth2FailureHandler))
+
+                .addFilterAt(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
