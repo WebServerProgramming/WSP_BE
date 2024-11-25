@@ -3,11 +3,13 @@ package com.chawoomi.inbounds.notice.presentation;
 
 import com.chawoomi.core.exception.common.ApplicationResponse;
 import com.chawoomi.outbound.adapter.service.NoticeService;
+import com.chawoomi.outbound.adapter.service.dto.NoticeDetail;
 import com.chawoomi.outbound.adapter.service.dto.NoticeInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +28,13 @@ public class NoticeController {
     public ApplicationResponse<List<NoticeInfo>> getTotalLists() {
         final List<NoticeInfo> all = noticeService.findAll();
         return ApplicationResponse.ok(all);
+    }
+
+    @Operation(summary = "상세 공지 조회", description = "상세 공지 목록을 조회합니다.")
+    @GetMapping("/{noticeId}")
+    public ApplicationResponse<NoticeDetail> getNoticeDetail(
+            @PathVariable Long noticeId) {
+        final NoticeDetail details = noticeService.findDetail(noticeId);
+        return ApplicationResponse.ok(details);
     }
 }
