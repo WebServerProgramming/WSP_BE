@@ -20,6 +20,10 @@ public class Review extends BaseEntity {
     private String content;
 
     @ManyToOne
+    @JoinColumn(name = "club_id", nullable = false)
+    private Club club;
+
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
