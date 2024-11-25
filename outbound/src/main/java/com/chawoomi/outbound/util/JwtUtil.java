@@ -59,6 +59,12 @@ public class JwtUtil {
         this.userRepository = userRepository;
     }
 
+    public String getEmailFromToken(String token) {
+        JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+        Claims claims = jwtParser.parseClaimsJws(token).getBody();
+        return claims.get("email", String.class); // Claims에서 이메일 추출
+    }
+
     public String createJwtAccessToken(String email, String subId) {
         Instant issuedAt = Instant.now();
         Instant expiration = issuedAt.plusMillis(accessExpMs);

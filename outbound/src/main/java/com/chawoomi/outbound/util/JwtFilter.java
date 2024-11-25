@@ -1,6 +1,6 @@
 package com.chawoomi.outbound.util;
 
-import com.chawoomi.core.exception.common.ApiResponse;
+import com.chawoomi.core.exception.common.ApplicationResponse;
 import com.chawoomi.core.exception.jwt.JwtAuthenticationEntryPoint;
 import com.chawoomi.core.exception.jwt.SecurityCustomException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
-                            ApiResponse.onFailure(e.getErrorCode().getCode(), e.getErrorCode().getMessage(), e.getMessage())
+                            ApplicationResponse.ok(e.getErrorCode().getCode(), e.getErrorCode().getMessage())
                     )
             );
         } catch (AuthenticationException e) {
