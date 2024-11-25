@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "picture", nullable = true)
+    @Column(name = "picture", nullable = false)
     private String picture;
 
     public static User createUser(OidcDecodePayload oidcDecodePayload) {
