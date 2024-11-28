@@ -38,6 +38,7 @@ public class ClubController {
         return ApplicationResponse.ok(all);
     }
 
+    @Operation(summary = "동아리 가입", description = "동아리 가입")
     @PostMapping("/{clubId}/join")
     public ApplicationResponse<String> joinClub(
             @UserResolver User user,
