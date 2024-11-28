@@ -10,4 +10,6 @@ public interface ClubUserRepository extends JpaRepository<ClubUser, Long> {
     List<ClubUser> findAllByClub_Id(Long id);
 
     List<ClubUser> findAllByUserId(Long userId);
+
+    boolean existsByUserIdAndClubId(Long userId, Long clubId);
 }

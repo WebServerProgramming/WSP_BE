@@ -3,8 +3,10 @@ package com.chawoomi.outbound.adapter.service;
 import com.chawoomi.outbound.adapter.service.dto.AllClubInfo;
 import com.chawoomi.outbound.adapter.service.dto.ClubInfo;
 import com.chawoomi.outbound.adapter.service.dto.ClubMember;
+import com.chawoomi.outbound.entity.Club;
 import com.chawoomi.outbound.entity.ClubUser;
 import com.chawoomi.outbound.entity.Review;
+import com.chawoomi.outbound.entity.User;
 import com.chawoomi.outbound.repository.ClubRepository;
 import com.chawoomi.outbound.repository.ClubUserRepository;
 import com.chawoomi.outbound.repository.ReviewRepository;
@@ -24,6 +26,7 @@ public class ClubService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
 
+    @Transactional(readOnly = true)
     public List<AllClubInfo> findAll() {
         // 모든 클럽 조회
         return clubRepository.findAll().stream()
@@ -53,7 +56,6 @@ public class ClubService {
         return totalRate / reviews.size();
     }
 
-
     @Transactional(readOnly = true)
     public List<ClubInfo> findMyClub(Long userId) {
 
@@ -67,6 +69,28 @@ public class ClubService {
                         clubUser.getClub().getClubName()
                 ))
                 .toList();
+    }
+
+    @Transactional
+    public void joinClub(Long userId, Long clubId) {
+        // 1. 클럽 및 사용자 조회
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 클럽이 존재하지 않습니다. clubId: " + clubId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. userId: " + userId));
+
+        // 2. 중복 가입 여부 확인
+        boolean isAlreadyMember = clubUserRepository.existsByUserIdAndClubId(userId, clubId);
+        if (isAlreadyMember) {
+            throw new IllegalStateException("사용자는 이미 클럽에 가입되어 있습니다. clubId: " + clubId + ", userId: " + userId);
+        }
+
+        // 3. ClubUser 엔티티 생성 및 저장
+        ClubUser clubUser = new ClubUser();
+        clubUser.assignClubAndUser(club, user);
+        clubUser.assignRole(1L);
+
+        clubUserRepository.save(clubUser);
     }
 
     public List<ClubMember> findMembers(Long id) {

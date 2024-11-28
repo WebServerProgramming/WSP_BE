@@ -10,10 +10,7 @@ import com.chawoomi.outbound.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +36,16 @@ public class ClubController {
     ) {
         final List<ClubInfo> all = clubService.findMyClub(user.getId());
         return ApplicationResponse.ok(all);
+    }
+
+    @PostMapping("/{clubId}/join")
+    public ApplicationResponse<String> joinClub(
+            @UserResolver User user,
+            @PathVariable Long clubId
+    ) {
+
+        clubService.joinClub(user.getId(), clubId);
+        return ApplicationResponse.ok("동아리에 가입하였습니다.");
     }
 
     @Operation(summary = "동아리 세부 명단 조회", description = "특정 동아리의 회원 명단을 조회합니다.")
