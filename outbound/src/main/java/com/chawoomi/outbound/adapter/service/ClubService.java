@@ -1,13 +1,17 @@
 package com.chawoomi.outbound.adapter.service;
 
+import com.chawoomi.outbound.adapter.service.dto.AllClubInfo;
 import com.chawoomi.outbound.adapter.service.dto.ClubInfo;
 import com.chawoomi.outbound.adapter.service.dto.ClubMember;
 import com.chawoomi.outbound.entity.ClubUser;
+import com.chawoomi.outbound.entity.Review;
 import com.chawoomi.outbound.repository.ClubRepository;
 import com.chawoomi.outbound.repository.ClubUserRepository;
+import com.chawoomi.outbound.repository.ReviewRepository;
 import com.chawoomi.outbound.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,11 +22,50 @@ public class ClubService {
     private final ClubUserRepository clubUserRepository;
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
 
-    public List<ClubInfo> findAll() {
-
+    public List<AllClubInfo> findAll() {
+        // 모든 클럽 조회
         return clubRepository.findAll().stream()
-                .map(club -> new ClubInfo(club.getId(), club.getClubName()))
+                .map(club -> {
+                    // 클럽별 리뷰 평균 평점 계산
+                    Double averageRate = calculateAverageRate(club.getId());
+
+                    // AllClubInfo 객체 생성
+                    return new AllClubInfo(
+                            club.getId(),
+                            club.getClubName(),
+                            averageRate != null ? Math.round(averageRate * 100.0) / 100.0 : null
+                    );
+                })
+                .toList();
+    }
+
+    // 클럽별 평균 평점 계산
+    private Double calculateAverageRate(Long clubId) {
+        List<Review> reviews = reviewRepository.findByClubId(clubId);
+        if (reviews.isEmpty()) {
+            return null; // 리뷰가 없을 경우 null 반환
+        }
+        double totalRate = reviews.stream()
+                .mapToInt(Review::getRating)
+                .sum();
+        return totalRate / reviews.size();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ClubInfo> findMyClub(Long userId) {
+
+        // 1. userId를 기준으로 ClubUser 조회
+        List<ClubUser> clubUsers = clubUserRepository.findAllByUserId(userId);
+
+        // 2. ClubUser의 Club 정보를 ClubInfo로 매핑
+        return clubUsers.stream()
+                .map(clubUser -> new ClubInfo(
+                        clubUser.getClub().getId(),
+                        clubUser.getClub().getClubName()
+                ))
                 .toList();
     }
 
