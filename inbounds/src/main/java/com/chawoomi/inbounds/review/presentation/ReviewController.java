@@ -2,17 +2,14 @@ package com.chawoomi.inbounds.review.presentation;
 
 import com.chawoomi.core.exception.common.ApplicationResponse;
 import com.chawoomi.outbound.adapter.service.ReviewService;
-import com.chawoomi.outbound.adapter.service.dto.ClubInfo;
+import com.chawoomi.outbound.adapter.service.dto.ReviewSaveDto;
 import com.chawoomi.outbound.adapter.service.dto.ReviewSummaryDto;
+import com.chawoomi.outbound.aop.UserResolver;
+import com.chawoomi.outbound.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,5 +25,15 @@ public class ReviewController {
             @PathVariable Long clubId) {
         final ReviewSummaryDto all = reviewService.findAll(clubId);
         return ApplicationResponse.ok(all);
+    }
+
+    @Operation(summary = "리뷰 저장", description = "리뷰를 저장합니다.")
+    @GetMapping("/{clubId}/save")
+    public ApplicationResponse<String> saveReview(
+            @UserResolver User user,
+            @PathVariable Long clubId,
+            @RequestBody ReviewSaveDto request) {
+        reviewService.saveReview(user.getId(), clubId, request.getRating(), request.getContent());
+        return ApplicationResponse.ok("리뷰가 저장되었습니다.");
     }
 }
