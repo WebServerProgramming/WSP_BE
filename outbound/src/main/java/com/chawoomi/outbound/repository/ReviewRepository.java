@@ -11,4 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.club.id = :clubId")
     List<Review> findByClubId(@Param("clubId") Long clubId);
+
+    boolean existsByUserIdAndClubId(Long userId, Long clubId);
 }

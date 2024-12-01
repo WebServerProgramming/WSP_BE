@@ -26,4 +26,17 @@ public class Review extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Review(Integer rating, String content) {
+        this.rating = rating;
+        this.content = content;
+    }
+
+    public void assignClubAndUser(Club club, User user) {
+        if (club == null || user == null) {
+            throw new IllegalArgumentException("Club과 User는 null일 수 없습니다.");
+        }
+        this.club = club;
+        this.user = user;
+    }
 }
