@@ -28,7 +28,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "리뷰 저장", description = "리뷰를 저장합니다.")
-    @GetMapping("/{clubId}/save")
+    @PostMapping("/{clubId}/save")
     public ApplicationResponse<String> saveReview(
             @UserResolver User user,
             @PathVariable Long clubId,

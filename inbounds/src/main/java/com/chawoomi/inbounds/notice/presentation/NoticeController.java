@@ -26,6 +26,7 @@ public class NoticeController {
     @Operation(summary = "공지 목록 조회", description = "전체 공지 목록을 조회합니다.")
     @GetMapping()
     public ApplicationResponse<List<NoticeInfo>> getTotalLists() {
+
         final List<NoticeInfo> all = noticeService.findAll();
         return ApplicationResponse.ok(all);
     }
@@ -34,7 +35,9 @@ public class NoticeController {
     @GetMapping("/{noticeId}")
     public ApplicationResponse<NoticeDetail> getNoticeDetail(
             @PathVariable Long noticeId) {
+
         final NoticeDetail details = noticeService.findDetail(noticeId);
         return ApplicationResponse.ok(details);
     }
+
 }
