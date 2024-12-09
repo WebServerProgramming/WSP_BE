@@ -146,6 +146,18 @@ public class JwtUtil {
         return new UsernamePasswordAuthenticationToken(infoDTO, token, authorities);
     }
 
+    public String resolveAccessToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            log.warn("[*] No token in req");
+            return null;
+        }
+
+        log.info("[*] Token exists");
+        return authorization.split(" ")[1];
+    }
+
     private User findUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
