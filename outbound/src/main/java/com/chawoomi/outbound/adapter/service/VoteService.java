@@ -1,6 +1,7 @@
 package com.chawoomi.outbound.adapter.service;
 
 import com.chawoomi.core.exception.common.ApplicationResponse;
+import com.chawoomi.outbound.adapter.service.dto.CalendarEntry;
 import com.chawoomi.outbound.adapter.service.dto.VoteStatus;
 import com.chawoomi.outbound.entity.User;
 import com.chawoomi.outbound.entity.Vote;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -75,53 +76,55 @@ public class VoteService {
     }
 
     /**
-     * 전체 달력 조회
+     * 전체 투표의 시작일과 종료일을 반환합니다.
      *
      * @param user 사용자 정보
-     * @return 각 월의 날짜 리스트
+     * @return 날짜와 해당 날짜 타입의 리스트
      */
-    public List<String> getAllCalendar(User user) {
+    public List<CalendarEntry> getAllCalendar(User user) {
         List<Vote> votes = voteRepository.findAll();
-        return extractDatesFromVotes(votes);
+        return extractStartAndEndDatesFromVotes(votes);
     }
 
     /**
-     * 특정 클럽의 달력 조회
+     * 특정 클럽의 투표 시작일과 종료일을 반환합니다.
      *
      * @param user   사용자 정보
      * @param clubId 클럽 ID
-     * @return 해당 클럽의 각 월의 날짜 리스트
+     * @return 날짜와 해당 날짜 타입의 리스트
      */
-    public List<String> getSingleCalendar(User user, Long clubId) {
+    public List<CalendarEntry> getSingleCalendar(User user, Long clubId) {
         List<Vote> votes = voteRepository.findByClubId(clubId);
-        return extractDatesFromVotes(votes);
+        return extractStartAndEndDatesFromVotes(votes);
     }
 
     /**
-     * 투표 리스트에서 시작 날짜와 종료 날짜를 기준으로 날짜를 추출합니다.
+     * 투표 리스트에서 시작일과 종료일을 추출합니다.
      *
      * @param votes 투표 리스트
-     * @return 날짜 리스트 (yyyy-MM-dd)
+     * @return 날짜와 날짜 타입의 리스트
      */
-    private List<String> extractDatesFromVotes(List<Vote> votes) {
+    private List<CalendarEntry> extractStartAndEndDatesFromVotes(List<Vote> votes) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Set<LocalDate> uniqueDates = new HashSet<>();
+        List<CalendarEntry> calendarEntries = new ArrayList<>();
 
         for (Vote vote : votes) {
-            LocalDate startDate = LocalDate.parse(vote.getStartDate(), formatter);
-            LocalDate endDate = LocalDate.parse(vote.getEndDate(), formatter);
+            // 시작일 추가
+            calendarEntries.add(new CalendarEntry(
+                    LocalDate.parse(vote.getStartDate(), formatter).format(formatter),
+                    "Start"
+            ));
 
-            // 시작 날짜부터 종료 날짜까지의 날짜를 추가
-            while (!startDate.isAfter(endDate)) {
-                uniqueDates.add(startDate);
-                startDate = startDate.plusDays(1);
-            }
+            // 종료일 추가
+            calendarEntries.add(new CalendarEntry(
+                    LocalDate.parse(vote.getEndDate(), formatter).format(formatter),
+                    "End"
+            ));
         }
 
-        // 날짜를 정렬하고 문자열로 변환
-        return uniqueDates.stream()
-                .sorted()
-                .map(date -> date.format(formatter))
-                .toList();
+        // 날짜를 정렬
+        calendarEntries.sort(Comparator.comparing(CalendarEntry::getDate));
+        return calendarEntries;
     }
+
 }
